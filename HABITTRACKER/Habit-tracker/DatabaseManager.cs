@@ -44,7 +44,7 @@ public class DatabaseManager
             connection.Open();
             var tableCmd = connection.CreateCommand();
             tableCmd.CommandText =
-                $"INSERT INTO drinking_water(date, quantity) VALUES('{date}', {quantity})";
+                $"INSERT INTO register_habit(date, quantity) VALUES('{date}', {quantity})";
             tableCmd.ExecuteNonQuery();
             connection.Close();
         }
@@ -57,7 +57,7 @@ public class DatabaseManager
         {
             connection.Open();
             var tableCmd = connection.CreateCommand();
-            tableCmd.CommandText = "SELECT * FROM drinking_water"; // SQL query to select all records
+            tableCmd.CommandText = "SELECT * FROM register_habit"; // SQL query to select all records
 
             List<DrinkingWater> tableData = new List<DrinkingWater>();
 
@@ -103,7 +103,7 @@ public class DatabaseManager
             {
                 connection.Open();
                 var tableCmd = connection.CreateCommand();
-                tableCmd.CommandText = "SELECT * FROM drinking_water"; // SQL query to select all records
+                tableCmd.CommandText = "SELECT * FROM register_habit"; // SQL query to select all records
                 SqliteDataReader reader = tableCmd.ExecuteReader();
 
                 if (!reader.HasRows) // Check if there are any rows
@@ -124,7 +124,7 @@ public class DatabaseManager
                     else
                     {
                         tableCmd = connection.CreateCommand();
-                        tableCmd.CommandText = $"SELECT EXISTS (SELECT 1 FROM drinking_water WHERE Id = {recordId})";
+                        tableCmd.CommandText = $"SELECT EXISTS (SELECT 1 FROM register_habit WHERE Id = {recordId})";
 
                         var checkQuery = Convert.ToInt32(tableCmd.ExecuteScalar()); // ExecuteScalar is used to get a single value, it used to ceck if the record exists
                         if (checkQuery == 0)
@@ -153,7 +153,7 @@ public class DatabaseManager
                             return;
                         }
 
-                        tableCmd.CommandText = $"UPDATE drinking_water SET Date = '{upDate}', Quantity = {upQuantity} WHERE Id = {recordId}";
+                        tableCmd.CommandText = $"UPDATE register_habit SET Date = '{upDate}', Quantity = {upQuantity} WHERE Id = {recordId}";
                         tableCmd.ExecuteNonQuery();
                         connection.Close();
                         continueUpdate = false;
@@ -173,7 +173,7 @@ public class DatabaseManager
             connection.Open();
             var tableCmd = connection.CreateCommand();
 
-            tableCmd.CommandText = "SELECT * FROM drinking_water"; // SQL query to select all records
+            tableCmd.CommandText = "SELECT * FROM register_habit"; // SQL query to select all records
 
             SqliteDataReader reader = tableCmd.ExecuteReader();
 
@@ -203,7 +203,7 @@ public class DatabaseManager
                     if ((delInput == "D"))
                     {
                         tableCmd = connection.CreateCommand();
-                        tableCmd.CommandText = $"DELETE FROM drinking_water";
+                        tableCmd.CommandText = $"DELETE FROM register_habit";
                         int rowCount = tableCmd.ExecuteNonQuery();
                         connection.Close();
                         inputValid = true;
@@ -217,7 +217,7 @@ public class DatabaseManager
                         if (recordId == 0) return;
 
                         tableCmd = connection.CreateCommand();
-                        tableCmd.CommandText = $"DELETE FROM drinking_water WHERE Id = {recordId}";
+                        tableCmd.CommandText = $"DELETE FROM register_habit WHERE Id = {recordId}";
 
                         int rowCount = tableCmd.ExecuteNonQuery(); // ExecuteNonQuery is used for DELETE statements
 
