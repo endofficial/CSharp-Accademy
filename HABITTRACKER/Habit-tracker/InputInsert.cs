@@ -42,6 +42,24 @@ public class InputInsert
         return userInputNewUnitOfMeasure!;
     }
 
+    public static int GetHabitInput(string message, TextReader? reader = null)
+    {
+        reader ??= Console.In;
+
+        WriteLine(message);
+        string? userInputHabit = reader?.ReadLine()?.Trim();
+
+        if (userInputHabit == "0") return 0;
+
+        while (!Int32.TryParse(userInputHabit, out _) || Convert.ToInt32(userInputHabit) < 0)
+        {
+            WriteLine("\nINVALID INPUT. PLEASE ENTER A VALID HABIT NAME. TYPE 0 TO RETURN TO MAIN MENU.");
+            userInputHabit = reader?.ReadLine()?.Trim();
+            if (userInputHabit == "0") return 0;
+        }
+        int finalInputHabit = Convert.ToInt32(userInputHabit);
+        return finalInputHabit!;
+    }
 
     public static string GetDateInput(TextReader? reader = null)
     {
@@ -81,9 +99,11 @@ public class InputInsert
     }
 }
 
-public class DrinkingWater
+public class RegisterHabit
 {
     public int Id { get; set; }
     public DateTime Date { get; set; }
     public int Quantity { get; set; }
+    public string NameHabit { get; set; }
+    public string UnitOfMeasurement { get; set; }
 }

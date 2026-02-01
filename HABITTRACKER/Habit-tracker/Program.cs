@@ -12,15 +12,16 @@ namespace Habit_tracker
                 connection.Open();
                 var tableCmd = connection.CreateCommand();
                 tableCmd.CommandText = @"
-                CREATE TABLE IF NOT EXISTS Register_Habit (
-                Id INTEGER PRIMARY KEY AUTOINCREMENT,
-                Date TEXT,
-                Quantity INTEGER);
-
                 CREATE TABLE IF NOT EXISTS Habit (
                 Id INTEGER PRIMARY KEY AUTOINCREMENT,
+                Date TEXT,
+                Quantity INTEGER,
+                HabitId INTEGER);
+
+                CREATE TABLE IF NOT EXISTS Register_Habit (
+                Id INTEGER PRIMARY KEY AUTOINCREMENT,
                 Name_Habit TEXT,
-                Unit_Of_Measurement INTEGER)";
+                Unit_Of_Measurement TEXT)";
 
                 tableCmd.ExecuteNonQuery();
                 connection.Close();

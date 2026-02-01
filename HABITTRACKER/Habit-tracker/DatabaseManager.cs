@@ -23,7 +23,7 @@ public class DatabaseManager
             connection.Open();
             var tableCmd = connection.CreateCommand();
             tableCmd.CommandText =
-                $"INSERT INTO Habit(name_habit, unit_of_measurement) VALUES('{nameHabit}', '{unitOfMeasure}')";
+                $"INSERT INTO Register_Habit(name_habit, unit_of_measurement) VALUES('{nameHabit}', '{unitOfMeasure}')";
             tableCmd.ExecuteNonQuery(); 
             connection.Close();
         }
@@ -32,6 +32,20 @@ public class DatabaseManager
     public static void Insert()
     {
         Console.Clear();
+
+        GetAllHabit();
+
+        int chooseHabit = InputInsert.GetHabitInput("CHOOSE A YOUR HABIT THAT YOU WOULD LIKE TO ADD. TYPE 0 TO RETURN TO MAIN MENU.");
+        if (chooseHabit == 0) return;
+
+        using (var connection = new SqliteConnection(connectionString))
+        {
+            connection.Open();
+            var tableCmd = connection.CreateCommand();
+            tableCmd.CommandText =
+                $"SELECT EXISTS (SELECT 1 FROM Register_Habit WHERE name_habit = '{chooseHabit}'";
+        }
+
         string date = InputInsert.GetDateInput(Console.In);
 
         if (int.TryParse(date, out int insertDate))
@@ -48,35 +62,36 @@ public class DatabaseManager
             connection.Open();
             var tableCmd = connection.CreateCommand();
             tableCmd.CommandText =
-                $"INSERT INTO register_habit(date, quantity) VALUES('{date}', {quantity})";
+                $"INSERT INTO habit(date, quantity, HabitId) VALUES('{date}', {quantity}, {chooseHabit})";
             tableCmd.ExecuteNonQuery();
             connection.Close();
         }
     }
 
-    public static void GetAllrecords()
+    public static void GetAllHabit()
     {
         Console.Clear();
         using (var connection = new SqliteConnection(connectionString))
         {
             connection.Open();
             var tableCmd = connection.CreateCommand();
-            tableCmd.CommandText = "SELECT * FROM register_habit"; // SQL query to select all records
+            tableCmd.CommandText = "SELECT * FROM Register_Habit";
 
-            List<DrinkingWater> tableData = new List<DrinkingWater>();
+            List<RegisterHabit> tableData = new List<RegisterHabit>();
 
             SqliteDataReader reader = tableCmd.ExecuteReader(); // Execute the query and get a reader; ExecuteReader is used for SELECT statements
 
             if (reader.HasRows) // Check if there are any rows
             {
+                // Read each row
                 while (reader.Read())
                 {
                     tableData.Add(
-                    new DrinkingWater
+                    new RegisterHabit
                     {
                         Id = reader.GetInt32(0), // Get the value of the first column (Id)
-                        Date = DateTime.ParseExact(reader.GetString(1), "dd-MM-yy", new CultureInfo("en-US"), DateTimeStyles.None), // Get the value of the second column (Date)
-                        Quantity = reader.GetInt32(2) // Get the value of the third column (Quantity)
+                        NameHabit = reader.GetString(1), // Get the value of the second column (NameHabit)
+                        UnitOfMeasurement = reader.GetString(2) // Get the value of the third column (UnitOfMeasurement)
                     });
                 }
             }
@@ -90,7 +105,60 @@ public class DatabaseManager
             WriteLine("-------------------------------------------------------");
             foreach (var db in tableData)
             {
-                WriteLine($"ID: {db.Id} - {db.Date.ToString("dd-MM-yy")} - QUANTITY: {db.Quantity}");
+                WriteLine($"ID: {db.Id} - {db.NameHabit} - UNIT OF MEASURE: {db.UnitOfMeasurement}");
+            }
+            WriteLine("-------------------------------------------------------");
+        }
+    }
+
+    public static void GetAllrecords()
+    {
+        Console.Clear();
+        using (var connection = new SqliteConnection(connectionString))
+        {
+            connection.Open();
+            var tableCmd = connection.CreateCommand();
+
+            // SQL query to select all records
+            // h => habit table alias; r => register_habit table alias
+            tableCmd.CommandText = @"
+            SELECT
+            h.Id, 
+            h.Date,
+            h.Quantity,
+            r.Name_Habit
+            FROM habit h INNER JOIN register_habit r ON h.HabitId = r.Id"; 
+
+            List<RegisterHabit> tableData = new List<RegisterHabit>();
+
+            SqliteDataReader reader = tableCmd.ExecuteReader(); // Execute the query and get a reader; ExecuteReader is used for SELECT statements
+
+            if (reader.HasRows) // Check if there are any rows
+            {
+                // Read each row
+                while (reader.Read())
+                {
+                    tableData.Add(
+                    new RegisterHabit
+                    {
+                        Id = reader.GetInt32(0), // Get the value of the first column (Id)
+                        Date = DateTime.ParseExact(reader.GetString(1), "dd-MM-yy", new CultureInfo("en-US"), DateTimeStyles.None), // Get the value of the second column (Date)
+                        Quantity = reader.GetInt32(2), // Get the value of the third column (Quantity)
+                        NameHabit = reader.GetString(3) // Get the value of the fourth column (NameHabit)
+                    });
+                }
+            }
+            else
+            {
+                Console.WriteLine("No rows found.");
+            }
+
+            connection.Close();
+
+            WriteLine("-------------------------------------------------------");
+            foreach (var db in tableData)
+            {
+                WriteLine($"ID: {db.Id} - {db.Date.ToString("dd-MM-yy")} - QUANTITY: {db.Quantity} - NAME HABIT: {db.NameHabit}");
             }
             WriteLine("-------------------------------------------------------");
         }
@@ -107,7 +175,7 @@ public class DatabaseManager
             {
                 connection.Open();
                 var tableCmd = connection.CreateCommand();
-                tableCmd.CommandText = "SELECT * FROM register_habit"; // SQL query to select all records
+                tableCmd.CommandText = "SELECT * FROM habit"; // SQL query to select all records
                 SqliteDataReader reader = tableCmd.ExecuteReader();
 
                 if (!reader.HasRows) // Check if there are any rows
@@ -128,7 +196,7 @@ public class DatabaseManager
                     else
                     {
                         tableCmd = connection.CreateCommand();
-                        tableCmd.CommandText = $"SELECT EXISTS (SELECT 1 FROM register_habit WHERE Id = {recordId})";
+                        tableCmd.CommandText = $"SELECT EXISTS (SELECT 1 FROM habit WHERE Id = {recordId})";
 
                         var checkQuery = Convert.ToInt32(tableCmd.ExecuteScalar()); // ExecuteScalar is used to get a single value, it used to ceck if the record exists
                         if (checkQuery == 0)
@@ -157,7 +225,7 @@ public class DatabaseManager
                             return;
                         }
 
-                        tableCmd.CommandText = $"UPDATE register_habit SET Date = '{upDate}', Quantity = {upQuantity} WHERE Id = {recordId}";
+                        tableCmd.CommandText = $"UPDATE habit SET Date = '{upDate}', Quantity = {upQuantity} WHERE Id = {recordId}";
                         tableCmd.ExecuteNonQuery();
                         connection.Close();
                         continueUpdate = false;
@@ -177,7 +245,7 @@ public class DatabaseManager
             connection.Open();
             var tableCmd = connection.CreateCommand();
 
-            tableCmd.CommandText = "SELECT * FROM register_habit"; // SQL query to select all records
+            tableCmd.CommandText = "SELECT * FROM habit"; // SQL query to select all records
 
             SqliteDataReader reader = tableCmd.ExecuteReader();
 
@@ -207,7 +275,7 @@ public class DatabaseManager
                     if ((delInput == "D"))
                     {
                         tableCmd = connection.CreateCommand();
-                        tableCmd.CommandText = $"DELETE FROM register_habit";
+                        tableCmd.CommandText = $"DELETE FROM habit";
                         int rowCount = tableCmd.ExecuteNonQuery();
                         connection.Close();
                         inputValid = true;
@@ -221,7 +289,7 @@ public class DatabaseManager
                         if (recordId == 0) return;
 
                         tableCmd = connection.CreateCommand();
-                        tableCmd.CommandText = $"DELETE FROM register_habit WHERE Id = {recordId}";
+                        tableCmd.CommandText = $"DELETE FROM habit WHERE Id = {recordId}";
 
                         int rowCount = tableCmd.ExecuteNonQuery(); // ExecuteNonQuery is used for DELETE statements
 
