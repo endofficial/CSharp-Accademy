@@ -198,7 +198,7 @@ public class DatabaseManager
                         tableCmd = connection.CreateCommand();
                         tableCmd.CommandText = $"SELECT EXISTS (SELECT 1 FROM habit WHERE Id = {recordId})";
 
-                        var checkQuery = Convert.ToInt32(tableCmd.ExecuteScalar()); // ExecuteScalar is used to get a single value, it used to ceck if the record exists
+                        var checkQuery = Convert.ToInt32(tableCmd.ExecuteScalar()); // ExecuteScalar is used to get a single value, it used to check if the record exists
                         if (checkQuery == 0)
                         {
                             WriteLine("\nRECORD NOT FOUND.");
@@ -206,29 +206,114 @@ public class DatabaseManager
                             Update();
                         }
 
-                        string upDate = InputInsert.GetDateInput();
+                        WriteLine("\nTYPE 1 IF YOU WANT UPDATE A NAME HABIT. TYPE 2 TO CONTINUE. TYPE 0 TO RETURN TO MAIN MENU.");
+                        string? updateInput = ReadLine();
 
-                        if (int.TryParse(upDate, out int upMenu))
+                        while (!int.TryParse(updateInput, out _) || Convert.ToInt32(updateInput) < 0)
                         {
-                            if (upMenu == 0)
+                            WriteLine("\nINVALID INPUT. PLEASE TRY AGAIN.");
+                            connection.Close();
+                            updateInput = ReadLine();
+                        }
+
+                        if (updateInput == "0")
+                        {
+                            connection.Close();
+                            return;
+                        } 
+
+                        // COMPLETARE QUESTO PUNTO
+                        if (updateInput == "1")
+                        {
+                            WriteLine("\nUPDATING A NAME HABIT. TYPE '0' TO RETURN TO MAIN MENU.");
+                            GetAllHabit();
+
+                            int recordHabitId = InputInsert.GetNumberInput("\nPLEASE ENTER THE ID OF THE HABIT YOU WANT TO UPDATE. TYPE 0 TO RETURN TO MAIN MENU.", Console.In);
+                            if (recordHabitId == 0)
                             {
                                 connection.Close();
                                 return;
                             }
-                        }
 
-                        int upQuantity = InputInsert.GetNumberInput("\nPLEASE ENTER NEW COFFE QUANITTY. TYPE 0 TO RETURN TO MAIN MENU.");
+                            tableCmd = connection.CreateCommand();
+                            tableCmd.CommandText = $"SELECT EXISTS (SELECT 1 FROM Register_Habit WHERE Id = {recordHabitId})";
 
-                        if (upQuantity == 0)
-                        {
+                            var checkHabitQuery = Convert.ToInt32(tableCmd.ExecuteScalar());
+                            if (checkHabitQuery == 0)
+                            {
+                                WriteLine("\nHABIT NOT FOUND.");
+                                connection.Close();
+                                Update();
+                            }
+
+                            string newNameHabit = InputInsert.GetNewHabitInput(Console.In);
+                            if (newNameHabit == "0")
+                            {
+                                connection.Close();
+                                return;
+                            }
+
+                            string newUnitOfMeasure = InputInsert.GetNewUnitOfMeasureInput(Console.In);
+                            if (newUnitOfMeasure == "0")
+                            {
+                                connection.Close();
+                                return;
+                            }
+
+                            tableCmd.CommandText =
+                                $"UPDATE Register_Habit SET name_habit = {newNameHabit}, unit_of_measurement = {newUnitOfMeasure}";
+
+                            string upDate = InputInsert.GetDateInput();
+
+                            if (int.TryParse(upDate, out int upMenu))
+                            {
+                                if (upMenu == 0)
+                                {
+                                    connection.Close();
+                                    return;
+                                }
+                            }
+
+                            int upQuantity = InputInsert.GetNumberInput("\nPLEASE ENTER NEW COFFE QUANITTY. TYPE 0 TO RETURN TO MAIN MENU.");
+
+                            if (upQuantity == 0)
+                            {
+                                connection.Close();
+                                return;
+                            }
+
+                            tableCmd.CommandText = $"UPDATE habit SET Date = '{upDate}', Quantity = {upQuantity} WHERE Id = {recordId}";
+                            tableCmd.ExecuteNonQuery();
                             connection.Close();
-                            return;
+                            continueUpdate = false;
                         }
 
-                        tableCmd.CommandText = $"UPDATE habit SET Date = '{upDate}', Quantity = {upQuantity} WHERE Id = {recordId}";
-                        tableCmd.ExecuteNonQuery();
-                        connection.Close();
-                        continueUpdate = false;
+                        if (updateInput == "2")
+                        {
+                            string UpDate = InputInsert.GetDateInput();
+
+                            if (int.TryParse(UpDate, out int UpMenu))
+                            {
+                                if (UpMenu == 0)
+                                {
+                                    connection.Close();
+                                    return;
+                                }
+                            }
+
+                            int UpQuantity = InputInsert.GetNumberInput("\nPLEASE ENTER NEW COFFE QUANITTY. TYPE 0 TO RETURN TO MAIN MENU.");
+
+                            if (UpQuantity == 0)
+                            {
+                                connection.Close();
+                                return;
+                            }
+
+                            tableCmd.CommandText = $"UPDATE habit SET Date = '{UpDate}', Quantity = {UpQuantity} WHERE Id = {recordId}";
+                            tableCmd.ExecuteNonQuery();
+                            connection.Close();
+                            continueUpdate = false;
+                        }
                     }
                 }
             }
