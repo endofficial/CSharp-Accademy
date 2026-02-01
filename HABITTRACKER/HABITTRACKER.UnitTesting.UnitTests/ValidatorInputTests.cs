@@ -100,4 +100,22 @@ public class ValidatorInputTests
         // Assert
         result.Should().Be(exepcted);
     }
+
+    [Theory]
+    [InlineData("LITERS", "LITERS")]
+    [InlineData(" LITERS", "LITERS")]
+    [InlineData("LITERS ", "LITERS")]
+    [InlineData("\n\nKILOGRAMS", "KILOGRAMS")]
+    [InlineData("4\nGRAMS", "GRAMS")]
+    public void CorrectNewUnitOfMeasureInput_ReturnNewUnitOfMeasure_WhitInvalidInput(string inputSequence, string exepcted)
+    {
+        // Arrange
+        var inputUnitOfMeasure = new StringReader(inputSequence);
+
+        // Act
+        var result = InputInsert.GetNewUnitOfMeasureInput(inputUnitOfMeasure);
+
+        // Assert
+        result.Should().Be(exepcted);
+    }
 }
