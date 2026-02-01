@@ -6,6 +6,13 @@ namespace Habit_tracker;
 public class DatabaseManager
 {
     static string connectionString = @"Data Source=habit-tracker.db";
+
+    public static void Register()
+    {
+        Console.Clear();
+        string nameHabit = InputInsert.GetNewHabitInput(Console.In);
+    }
+
     public static void Insert()
     {
         Console.Clear();

@@ -1,12 +1,32 @@
 ﻿using System.Globalization;
+using System.Reflection.Metadata.Ecma335;
 
 namespace Habit_tracker;
 
 public class InputInsert
 {
+    public static string GetNewHabitInput(TextReader? reader = null)
+    {
+        reader ??= Console.In; 
+
+        WriteLine("\nPLEASE ENTER THE NAME OF THE HABIT YOU WANT TO REGISTER. TYPE 0 TO RETURN TO MAIN MENU.");
+        string? userInputNewHabit = reader?.ReadLine()?.Trim();
+        if (userInputNewHabit == "0") return "0";
+
+        while (int.TryParse(userInputNewHabit, out _) || string.IsNullOrEmpty(userInputNewHabit))
+        {
+            WriteLine("\nINVALID INPUT. PLEASE ENTER A VALID HABIT NAME. TYPE 0 TO RETURN TO MAIN MENU.");
+            userInputNewHabit = reader?.ReadLine()?.Trim();
+            if (userInputNewHabit == "0") return "0";
+        }
+
+        return userInputNewHabit!; // the ! operator is used to indicate that userInputDate is not null here
+    }
+    
     public static string GetDateInput(TextReader? reader = null)
     {
-        reader ??= Console.In;
+        reader ??= Console.In; // if reader is null, assign Console.In to it
+
         WriteLine("\nPLEASE ENTER DATE (dd-MM-yy). TYPE 0 TO RETURN TO MAIN MENU. ");
         string? userInputDate = reader?.ReadLine()?.Trim();
         if (userInputDate == "0") return "0";
@@ -18,11 +38,13 @@ public class InputInsert
             userInputDate = reader?.ReadLine()?.Trim();
             if (userInputDate == "0") return "0";
         }
-        return userInputDate!; // the ! operator is used to indicate that userInputDate is not null here
+        return userInputDate!; 
     }
 
     public static int GetNumberInput(string message, TextReader? reader = null)
     {
+        reader ??= Console.In;
+
         WriteLine(message);
         string? userInputNumber = reader?.ReadLine()?.Trim();
         if (userInputNumber == "0") return 0;

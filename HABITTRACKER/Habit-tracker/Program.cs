@@ -12,10 +12,15 @@ namespace Habit_tracker
                 connection.Open();
                 var tableCmd = connection.CreateCommand();
                 tableCmd.CommandText = @"
-                CREATE TABLE IF NOT EXISTS drinking_water (
+                CREATE TABLE IF NOT EXISTS Register_Habit (
                 Id INTEGER PRIMARY KEY AUTOINCREMENT,
                 Date TEXT,
-                Quantity INTEGER)";
+                Quantity INTEGER);
+
+                CREATE TABLE IF NOT EXISTS Habit (
+                Id INTEGER PRIMARY KEY AUTOINCREMENT,
+                Name_Habit TEXT,
+                Unit_Of_Measurement INTEGER)";
 
                 tableCmd.ExecuteNonQuery();
                 connection.Close();
