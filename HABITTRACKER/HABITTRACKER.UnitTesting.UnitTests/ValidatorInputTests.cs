@@ -82,4 +82,22 @@ public class ValidatorInputTests
         // Assert
         result.Should().Be(exepcted);
     }
+
+    [Theory]
+    [InlineData("TEXT", "TEXT")]
+    [InlineData(" TEXT", "TEXT")]
+    [InlineData("TEXT ", "TEXT")]
+    [InlineData("\n\nHABIT", "HABIT")]
+    [InlineData("4\nNEW HABIT", "NEW HABIT")]
+    public void CorrectNewHabitInput_ReturnNewHabit_WhitInvalidInput(string inputSequence, string exepcted)
+    {
+        // Arrange
+        var inputHabit = new StringReader(inputSequence);
+
+        // Act
+        var result = InputInsert.GetNewHabitInput(inputHabit);
+
+        // Assert
+        result.Should().Be(exepcted);
+    }
 }
