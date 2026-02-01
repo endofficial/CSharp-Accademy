@@ -22,7 +22,27 @@ public class InputInsert
 
         return userInputNewHabit!; // the ! operator is used to indicate that userInputDate is not null here
     }
-    
+
+    public static string GetNewUnitOfMeasureInput(TextReader? reader = null)
+    {
+        reader ??= Console.In;
+
+        WriteLine("\nPLEASE ENTER THE UNIT OF MEASUREMENT FOR THE HABIT YOU WANT TO REGISTER. TYPE 0 TO RETURN TO MAIN MENU.");
+        string? userInputNewUnitOfMeasure = reader?.ReadLine()?.Trim();
+
+        if (userInputNewUnitOfMeasure == "0") return "0";
+
+        while (int.TryParse(userInputNewUnitOfMeasure, out _) || string.IsNullOrEmpty(userInputNewUnitOfMeasure))
+        {
+            WriteLine("\nINVALID INPUT. PLEASE ENTER A VALID UNIT OF MEASUREMENT. TYPE 0 TO RETURN TO MAIN MENU.");
+            userInputNewUnitOfMeasure = reader?.ReadLine()?.Trim();
+            if (userInputNewUnitOfMeasure == "0") return "0";
+        }
+
+        return userInputNewUnitOfMeasure!;
+    }
+
+
     public static string GetDateInput(TextReader? reader = null)
     {
         reader ??= Console.In; // if reader is null, assign Console.In to it

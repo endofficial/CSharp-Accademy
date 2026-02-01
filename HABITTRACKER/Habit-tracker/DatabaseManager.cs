@@ -11,6 +11,8 @@ public class DatabaseManager
     {
         Console.Clear();
         string nameHabit = InputInsert.GetNewHabitInput(Console.In);
+
+        string unitOfMeasure = InputInsert.GetNewUnitOfMeasureInput(Console.In);
     }
 
     public static void Insert()
