@@ -12,7 +12,11 @@ public class DatabaseManager
         Console.Clear();
         string nameHabit = InputInsert.GetNewHabitInput(Console.In);
 
+        if (nameHabit == "0") return;
+
         string unitOfMeasure = InputInsert.GetNewUnitOfMeasureInput(Console.In);
+
+        if (unitOfMeasure == "0") return;
 
         using (var connection = new SqliteConnection(connectionString))
         {
