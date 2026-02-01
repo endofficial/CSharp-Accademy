@@ -13,6 +13,16 @@ public class DatabaseManager
         string nameHabit = InputInsert.GetNewHabitInput(Console.In);
 
         string unitOfMeasure = InputInsert.GetNewUnitOfMeasureInput(Console.In);
+
+        using (var connection = new SqliteConnection(connectionString))
+        {
+            connection.Open();
+            var tableCmd = connection.CreateCommand();
+            tableCmd.CommandText =
+                $"INSERT INTO Habit(name_habit, unit_of_measurement) VALUES('{nameHabit}', '{unitOfMeasure}')";
+            tableCmd.ExecuteNonQuery(); 
+            connection.Close();
+        }
     }
 
     public static void Insert()
