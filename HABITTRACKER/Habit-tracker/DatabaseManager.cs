@@ -53,7 +53,7 @@ public class DatabaseManager
             if (insertDate == 0) return;
         }
 
-        int quantity = InputInsert.GetNumberInput("\nPLEASE ENTER HOW MANY TIMES HAVE YOU DRINK COFFEE? TYPE 0 TO RETURN TO MAIN MENU.", Console.In);
+        int quantity = InputInsert.GetNumberInput("\nPLEAE ENTER HOW MANY TIMES YOU HAVE PERFORMED THE HABIT. TYPE 0 TO RETURN TO MAIN MENU.", Console.In);
 
         if (quantity == 0) return;
 
@@ -222,7 +222,6 @@ public class DatabaseManager
                             return;
                         } 
 
-                        // COMPLETARE QUESTO PUNTO
                         if (updateInput == "1")
                         {
                             WriteLine("\nUPDATING A NAME HABIT. TYPE '0' TO RETURN TO MAIN MENU.");
@@ -280,7 +279,7 @@ public class DatabaseManager
                                 }
                             }
 
-                            int UpQuantity = InputInsert.GetNumberInput("\nPLEASE ENTER NEW COFFE QUANITTY. TYPE 0 TO RETURN TO MAIN MENU.");
+                            int UpQuantity = InputInsert.GetNumberInput("\nPLEAE ENTER HOW MANY TIMES YOU HAVE PERFORMED THE HABIT. TYPE 0 TO RETURN TO MAIN MENU.");
 
                             if (UpQuantity == 0)
                             {
