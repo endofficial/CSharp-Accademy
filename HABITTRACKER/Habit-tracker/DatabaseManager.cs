@@ -206,7 +206,7 @@ public class DatabaseManager
                             Update();
                         }
 
-                        WriteLine("\nTYPE 1 IF YOU WANT UPDATE A NAME HABIT. TYPE 2 TO CONTINUE. TYPE 0 TO RETURN TO MAIN MENU.");
+                        WriteLine("\nTYPE 1 IF YOU WANT UPDATE A NAME HABIT. TYPE 2 TO CHANGE DATE. TYPE 0 TO RETURN TO MAIN MENU.");
                         string? updateInput = ReadLine();
 
                         while (!int.TryParse(updateInput, out _) || Convert.ToInt32(updateInput) < 0)
@@ -261,28 +261,7 @@ public class DatabaseManager
                             }
 
                             tableCmd.CommandText =
-                                $"UPDATE Register_Habit SET name_habit = {newNameHabit}, unit_of_measurement = {newUnitOfMeasure}";
-
-                            string upDate = InputInsert.GetDateInput();
-
-                            if (int.TryParse(upDate, out int upMenu))
-                            {
-                                if (upMenu == 0)
-                                {
-                                    connection.Close();
-                                    return;
-                                }
-                            }
-
-                            int upQuantity = InputInsert.GetNumberInput("\nPLEASE ENTER NEW COFFE QUANITTY. TYPE 0 TO RETURN TO MAIN MENU.");
-
-                            if (upQuantity == 0)
-                            {
-                                connection.Close();
-                                return;
-                            }
-
-                            tableCmd.CommandText = $"UPDATE habit SET Date = '{upDate}', Quantity = {upQuantity} WHERE Id = {recordId}";
+                                $"UPDATE Register_Habit SET name_habit = '{newNameHabit}', unit_of_measurement = '{newUnitOfMeasure}' WHERE Id = {recordHabitId}";
                             tableCmd.ExecuteNonQuery();
                             connection.Close();
                             continueUpdate = false;
