@@ -39,3 +39,9 @@ Essa è un'applicazione CRUD (Create, Read, Update, Delete) che permette agli ute
 - Update record
 	-	Digitando '3', si possono aggiornare le abitudini
 	-	<img src="3.png" alt="Update habits" width="700">
+	-	Il programma da la possibilità di cambiare il nome dell'abitudine; solo la data o tornare nel menù prinipale.
+
+- Delete record
+	-	Digitando '4', si possono eliminare le abitudini
+	-	<img src="4.png" alt="Update habits" width="700">
+	-	 
