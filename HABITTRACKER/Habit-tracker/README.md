@@ -22,4 +22,6 @@ Essa è un'applicazione CRUD (Create, Read, Update, Delete) che permette agli ute
 	-	Se non esiste all'avvio, verrà creato un database con delle abitudini random per i test.
 
 - L'interfaccia utente, basata su console, è semplice e intuitiva
-- <img src="Interfaccia_utente.png" alt="Descrizione" width="500" height="300">
+
+
+<img src="Interfaccia_utente.png" alt="Descrizione" width="500">
