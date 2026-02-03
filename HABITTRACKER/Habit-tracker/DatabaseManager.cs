@@ -320,7 +320,7 @@ public class DatabaseManager
             }
             else 
             {
-                WriteLine("\nTYPE 'D' TO DELETE ALL RECORDS. PRESS 'C' TO SELECT THE RECORD. PRESS 0 TO RETURN TO MAIN MENU.");
+                WriteLine("\nTYPE 'D' TO DELETE ALL YOUR HABITS. PRESS 'R' TO DELETE THE NAME HABIT. PRESS 'C' TO SELECT THE RECORD. PRESS 0 TO RETURN TO MAIN MENU.");
 
                 string? delInput = ReadLine()?.ToUpper();
                 bool inputValid = false;
@@ -331,31 +331,90 @@ public class DatabaseManager
                     {
                         if (numberInput == 0)
                         {
+                            connection.Close();
                             return;
-                        }
+                        } 
                     }
 
                     if ((delInput == "D"))
                     {
                         tableCmd = connection.CreateCommand();
                         tableCmd.CommandText = $"DELETE FROM habit";
-                        int rowCount = tableCmd.ExecuteNonQuery();
+                        tableCmd.ExecuteNonQuery();
                         connection.Close();
                         inputValid = true;
 
                     }
+                    else if (delInput == "R")
+                    {
+                        Console.Clear();
+                        GetAllHabit();
+
+                        tableCmd = connection.CreateCommand();
+                        tableCmd.CommandText = $"SELECT * FROM Register_Habit";
+
+                        SqliteDataReader readerHabit = tableCmd.ExecuteReader();
+
+                        if (!reader.HasRows)
+                        {
+                            WriteLine("\nNO HABITS TO DELETE.");
+                            connection.Close();
+                            return;
+                        }
+
+                        else
+                        {
+                            WriteLine("TYPE 'D' TO DELETE ALL HABIT NAMES. TYPE 'C' TO SELECT THE RECROD. TYPE 0 TO RETURN TO MAIN MENU. ");
+                            string? delHabitInput = ReadLine()?.ToUpper();
+
+                            if (int.TryParse(delHabitInput, out int habitInput))
+                            {
+                                if (habitInput == 0)
+                                {
+                                    connection.Close();
+                                    return;
+                                }
+                            }
+
+                            if (delHabitInput == "D")
+                            {
+                                tableCmd = connection.CreateCommand();
+                                tableCmd.CommandText = $"DELETE FROM Register_Habit";
+                                tableCmd.ExecuteNonQuery();
+                                connection.Close();
+                                inputValid = true;
+                            }
+                            else if (delHabitInput == "C")
+                            {
+                                int recordHabitId = InputInsert.GetNumberInput("\nPLEASE ENTER THE ID OF THE RECORD THAT YOU WANT TO DELETE. TYOE 0 TO RETURN TO MAIN MENU.");
+                                if (recordHabitId == 0)
+                                {
+                                    connection.Close();
+                                    return;
+                                }
+
+                                tableCmd = connection.CreateCommand();
+                                tableCmd.CommandText = $"DELETE FROM Register_Habit WHERE Id = {recordHabitId}";
+                                tableCmd.ExecuteNonQuery();
+                                connection.Close();
+                                inputValid = true;
+                            }
+                        }
+                    }
                     else if (delInput == "C")
                     {
-                        var recordId = InputInsert.GetNumberInput("" +
+                        int recordId = InputInsert.GetNumberInput("" +
                         "\nPLEASE ENTER THE ID OF THE RECORD YOU WANT TO DELETE. TYPE 0 TO RETURN TO MAIN MENU.");
 
-                        if (recordId == 0) return;
+                        if (recordId == 0)
+                        {
+                            connection.Close();
+                            return;
+                        } 
 
                         tableCmd = connection.CreateCommand();
                         tableCmd.CommandText = $"DELETE FROM habit WHERE Id = {recordId}";
-
-                        int rowCount = tableCmd.ExecuteNonQuery(); // ExecuteNonQuery is used for DELETE statements
-
+                        tableCmd.ExecuteNonQuery(); // ExecuteNonQuery is used for DELETE statements
                         connection.Close();
                         inputValid = true;
                     }
