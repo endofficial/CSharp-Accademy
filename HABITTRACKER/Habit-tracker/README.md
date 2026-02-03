@@ -37,11 +37,16 @@ Essa è un'applicazione CRUD (Create, Read, Update, Delete) che permette agli ute
 	-	L'applicazione permette di tornare sempre al menù principale. Controlla che l'input della data sia nel formato corretto (dd-MM-yy). Controlla che nelle quantità siano inseriti solo numeri.
 
 - Update record
-	-	Digitando '3', si possono aggiornare le abitudini
+	-	Digitando '3', si possono aggiornare le abitudini.
 	-	<img src="3.png" alt="Update habits" width="700">
 	-	Il programma da la possibilità di cambiare il nome dell'abitudine; solo la data o tornare nel menù prinipale.
 
 - Delete record
-	-	Digitando '4', si possono eliminare le abitudini
+	-	Digitando '4', si possono eliminare le abitudini.
 	-	<img src="4.png" alt="Update habits" width="700">
-	-	 
+	-	 Il programma da la possibilità di eliminare tutto; di eliminare solo i record di una precisa abitudine; selezionare una sola abitudine o tornare indietro.
+
+- See all records
+	-	Digitando '5', si possono visualizzare tutte le abitudini registrate. 
+	-	<img src="5.png" alt="Update habits" width="700">
+
