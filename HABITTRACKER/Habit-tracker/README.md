@@ -32,3 +32,6 @@ Essa è un'applicazione CRUD (Create, Read, Update, Delete) che permette agli ute
 - Registrazione e inserimento
 	-	Digitando '1', si registra una nuova abitudine. Bisogna inserire il nome dell'abitudine e l'unita di misura.
 	-	<img src="1.png" alt="Registrazione nuova abitudine" width="1000">  
+	-	Digitando '2', si aggiungono le abitudini inserendo la data e la quantità.
+	-	<img src="2.png" alt="Inserimento abitudini" width="700">
+	-	
