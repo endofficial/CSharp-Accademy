@@ -50,3 +50,10 @@ Essa è un'applicazione CRUD (Create, Read, Update, Delete) che permette agli ute
 	-	Digitando '5', si possono visualizzare tutte le abitudini registrate. 
 	-	<img src="5.png" alt="Update habits" width="500">
 
+## Challenges
+
+- Ho imparato a creare un database e comunicare con esso con l'utilizzo di ADO.NET.
+- Un ostacolo interessante è stato il dover creare dei record random, utili per i test.
+- Ho migliorato nell'utilizzo dei metodi e delle classi, per mantenere il mio codice più ordinato.
+- Ho imparato a scrivere test unitari. Sono stati utili per controllare che i metodi funzionassero come previsto.
+
