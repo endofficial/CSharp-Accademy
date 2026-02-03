@@ -48,5 +48,5 @@ Essa è un'applicazione CRUD (Create, Read, Update, Delete) che permette agli ute
 
 - See all records
 	-	Digitando '5', si possono visualizzare tutte le abitudini registrate. 
-	-	<img src="5.png" alt="Update habits" width="700">
+	-	<img src="5.png" alt="Update habits" width="500">
 
