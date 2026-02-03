@@ -25,3 +25,10 @@ Essa è un'applicazione CRUD (Create, Read, Update, Delete) che permette agli ute
 
 
 <img src="Interfaccia_utente.png" alt="Interfaccia all'avvio" width="500">
+
+- Funzioni CRUD
+	-	Dal menù si possono creare, leggere, aggiornare e cancellare le abitudini registrate.
+
+- Registrazione e inserimento
+	-	Digitando '1', si registra una nuova abitudine. Bisogna inserire il nome dell'abitudine e l'unita di misura.
+	-	<img src="1.png" alt="Registrazione nuova abitudine" width="500">  
