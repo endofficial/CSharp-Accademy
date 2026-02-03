@@ -27,7 +27,7 @@ namespace Habit_tracker
                 tableCmd.ExecuteNonQuery();
                 connection.Close();
 
-                #region To register some habits 
+                #region To register some habits and some records for testing purposes
 
                 (string Col1, string Col2)[] arrayDb = new (string, string)[]
                     { ("DRINKING COFFEE", "NUMBER OF CUPS"),
@@ -93,7 +93,7 @@ namespace Habit_tracker
 
                     foreach (int id in habitsId)
                     {
-                        for (int i = 0; i < 100; i++)
+                        for (int i = 0; i < 20; i++)
                         {
                             string randomDate = DateTime.Now.AddDays(-random.Next(0, 31)).ToString("dd-MM-yy"); // Random date within the last year
 
