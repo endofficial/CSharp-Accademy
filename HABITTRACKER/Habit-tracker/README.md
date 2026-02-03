@@ -24,4 +24,4 @@ Essa è un'applicazione CRUD (Create, Read, Update, Delete) che permette agli ute
 - L'interfaccia utente, basata su console, è semplice e intuitiva
 
 
-![Menù utente all'avvio](./Interfaccia_utente.pngs)
+<img src="Interfaccia_utente.png" alt="Interfaccia all'avvio" width="500">
