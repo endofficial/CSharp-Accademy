@@ -34,4 +34,8 @@ Essa è un'applicazione CRUD (Create, Read, Update, Delete) che permette agli ute
 	-	<img src="1.png" alt="Registrazione nuova abitudine" width="1000">  
 	-	Digitando '2', si aggiungono le abitudini inserendo la data e la quantità.
 	-	<img src="2.png" alt="Inserimento abitudini" width="700">
-	-	
+	-	L'applicazione permette di tornare sempre al menù principale. Controlla che l'input della data sia nel formato corretto (dd-MM-yy). Controlla che nelle quantità siano inseriti solo numeri.
+
+- Update record
+	-	Digitando '3', si possono aggiornare le abitudini
+	-	<img src="3.png" alt="Update habits" width="700">
