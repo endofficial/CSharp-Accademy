@@ -1,5 +1,5 @@
 ﻿using FluentAssertions;
-using Habit_tracker;
+using HabitTracker;
 using System.Diagnostics.Metrics;
 using Xunit;
 using static System.Runtime.InteropServices.JavaScript.JSType;

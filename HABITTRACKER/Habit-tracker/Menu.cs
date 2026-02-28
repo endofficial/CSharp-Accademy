@@ -1,4 +1,4 @@
-﻿namespace Habit_tracker;
+﻿namespace HabitTracker;
 
 public class Menu
 {
@@ -31,7 +31,7 @@ public class Menu
                     closeApp = true;
                     break;
                 case "1":
-                    DatabaseManager.Register();
+                    DatabaseManager.RegisterHabit();
                     break;
                 case "2":
                     DatabaseManager.Insert();
@@ -43,7 +43,7 @@ public class Menu
                     DatabaseManager.Delete();
                     break;
                 case "5":
-                    DatabaseManager.GetAllrecords();
+                    DatabaseManager.GetAllRecords();
                     break;
             }
         }

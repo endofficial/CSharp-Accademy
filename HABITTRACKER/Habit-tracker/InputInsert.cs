@@ -1,7 +1,7 @@
 ﻿using System.Globalization;
 using System.Reflection.Metadata.Ecma335;
 
-namespace Habit_tracker;
+namespace HabitTracker;
 
 public class InputInsert
 {
@@ -104,6 +104,6 @@ public class RegisterHabit
     public int Id { get; set; }
     public DateTime Date { get; set; }
     public int Quantity { get; set; }
-    public string NameHabit { get; set; }
+    public string Name { get; set; }
     public string UnitOfMeasurement { get; set; }
 }

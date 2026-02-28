@@ -1,11 +1,11 @@
 ﻿using Microsoft.Data.Sqlite;
 using System.Collections.Specialized;
 
-namespace Habit_tracker
+namespace HabitTracker
 {
     internal class Program
     {
-        static string connectionString = @"Data Source=Habit-tracker.db";
+        private static readonly string connectionString = @"Data Source=Habit-tracker.db";
         static void Main(string[] args)
         {
             using (var connection = new SqliteConnection(connectionString))

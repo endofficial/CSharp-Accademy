@@ -1,39 +1,37 @@
 ﻿using Microsoft.Data.Sqlite;
 using System.Globalization;
 
-namespace Habit_tracker;
+namespace HabitTracker;
 
 public class DatabaseManager
 {
-    static string connectionString = @"Data Source=habit-tracker.db";
+    //If not expected to change value, have it as a constant, of a readonly field. 
+    private static readonly string connectionString = @"Data Source=habit-tracker.db";
 
-    public static void Register()
+    public static bool RegisterHabit()
     {
         Console.Clear();
         string nameHabit = InputInsert.GetNewHabitInput(Console.In);
 
-        if (nameHabit == "0") return;
+        if (nameHabit == "0") return false;
 
         string unitOfMeasure = InputInsert.GetNewUnitOfMeasureInput(Console.In);
 
-        if (unitOfMeasure == "0") return;
+        if (unitOfMeasure == "0") return false;
 
-        using (var connection = new SqliteConnection(connectionString))
-        {
-            connection.Open();
-            var tableCmd = connection.CreateCommand();
-            tableCmd.CommandText =
-                $"INSERT INTO Register_Habit(name_habit, unit_of_measurement) VALUES('{nameHabit}', '{unitOfMeasure}')";
-            tableCmd.ExecuteNonQuery(); 
-            connection.Close();
-        }
+        using var connection = new SqliteConnection(connectionString);
+        connection.Open();
+        var tableCmd = connection.CreateCommand();
+        tableCmd.CommandText = $"INSERT INTO Register_Habit(name_habit, unit_of_measurement) VALUES('{nameHabit}', '{unitOfMeasure}')";
+        var rowsAffected = tableCmd.ExecuteNonQuery(); 
+        return rowsAffected > 0;
     }
 
     public static void Insert()
     {
         Console.Clear();
 
-        GetAllHabit();
+        GetAllHabits();
 
         int chooseHabit = InputInsert.GetHabitInput("CHOOSE A YOUR HABIT THAT YOU WOULD LIKE TO ADD. TYPE 0 TO RETURN TO MAIN MENU.");
         if (chooseHabit == 0) return;
@@ -53,7 +51,7 @@ public class DatabaseManager
             if (insertDate == 0) return;
         }
 
-        int quantity = InputInsert.GetNumberInput("\nPLEAE ENTER HOW MANY TIMES YOU HAVE PERFORMED THE HABIT. TYPE 0 TO RETURN TO MAIN MENU.", Console.In);
+        int quantity = InputInsert.GetNumberInput("\nPLEASE ENTER HOW MANY TIMES YOU HAVE PERFORMED THE HABIT. TYPE 0 TO RETURN TO MAIN MENU.", Console.In);
 
         if (quantity == 0) return;
 
@@ -68,7 +66,7 @@ public class DatabaseManager
         }
     }
 
-    public static void GetAllHabit()
+    public static void GetAllHabits()
     {
         Console.Clear();
         using (var connection = new SqliteConnection(connectionString))
@@ -90,7 +88,7 @@ public class DatabaseManager
                     new RegisterHabit
                     {
                         Id = reader.GetInt32(0), // Get the value of the first column (Id)
-                        NameHabit = reader.GetString(1), // Get the value of the second column (NameHabit)
+                        Name = reader.GetString(1), // Get the value of the second column (NameHabit)
                         UnitOfMeasurement = reader.GetString(2) // Get the value of the third column (UnitOfMeasurement)
                     });
                 }
@@ -105,13 +103,13 @@ public class DatabaseManager
             WriteLine("-------------------------------------------------------");
             foreach (var db in tableData)
             {
-                WriteLine($"ID: {db.Id} - {db.NameHabit} - UNIT OF MEASURE: {db.UnitOfMeasurement}");
+                WriteLine($"ID: {db.Id} - {db.Name} - UNIT OF MEASURE: {db.UnitOfMeasurement}");
             }
             WriteLine("-------------------------------------------------------");
         }
     }
 
-    public static void GetAllrecords()
+    public static void GetAllRecords()
     {
         Console.Clear();
         using (var connection = new SqliteConnection(connectionString))
@@ -144,7 +142,7 @@ public class DatabaseManager
                         Id = reader.GetInt32(0), // Get the value of the first column (Id)
                         Date = DateTime.ParseExact(reader.GetString(1), "dd-MM-yy", new CultureInfo("en-US"), DateTimeStyles.None), // Get the value of the second column (Date)
                         Quantity = reader.GetInt32(2), // Get the value of the third column (Quantity)
-                        NameHabit = reader.GetString(3) // Get the value of the fourth column (NameHabit)
+                        Name = reader.GetString(3) // Get the value of the fourth column (NameHabit)
                     });
                 }
             }
@@ -158,7 +156,7 @@ public class DatabaseManager
             WriteLine("-------------------------------------------------------");
             foreach (var db in tableData)
             {
-                WriteLine($"ID: {db.Id} - {db.Date.ToString("dd-MM-yy")} - QUANTITY: {db.Quantity} - NAME HABIT: {db.NameHabit}");
+                WriteLine($"ID: {db.Id} - {db.Date.ToString("dd-MM-yy")} - QUANTITY: {db.Quantity} - NAME HABIT: {db.Name}");
             }
             WriteLine("-------------------------------------------------------");
         }
@@ -166,7 +164,7 @@ public class DatabaseManager
 
     public static void Update()
     {
-        GetAllrecords();
+        GetAllRecords();
         bool continueUpdate = true;
 
         while (continueUpdate)
@@ -225,7 +223,7 @@ public class DatabaseManager
                         if (updateInput == "1")
                         {
                             WriteLine("\nUPDATING A NAME HABIT. TYPE '0' TO RETURN TO MAIN MENU.");
-                            GetAllHabit();
+                            GetAllHabits();
 
                             int recordHabitId = InputInsert.GetNumberInput("\nPLEASE ENTER THE ID OF THE HABIT YOU WANT TO UPDATE. TYPE 0 TO RETURN TO MAIN MENU.", Console.In);
                             if (recordHabitId == 0)
@@ -301,7 +299,7 @@ public class DatabaseManager
     public static void Delete()
     {
         Console.Clear();
-        GetAllrecords();
+        GetAllRecords();
 
         using (var connection = new SqliteConnection(connectionString))
         {
@@ -348,7 +346,7 @@ public class DatabaseManager
                     else if (delInput == "R")
                     {
                         Console.Clear();
-                        GetAllHabit();
+                        GetAllHabits();
 
                         tableCmd = connection.CreateCommand();
                         tableCmd.CommandText = $"SELECT * FROM Register_Habit";
