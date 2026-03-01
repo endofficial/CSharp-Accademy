@@ -4,15 +4,6 @@ namespace TCSA.OOP.LibraryManagementSystem;
 
 internal class BooksController
 {
-    private static List<string> books = new()
-    {
-        "The Great Gatsby",
-        "To Kill a Mockingbird",
-        "1984",
-        "Pride and Prejudice",
-        "The Catcher in the Rye"
-    };
-
     internal void ViewBooks()
     {
         /* Spectre's MarkupLine method is useful for styling strings.
@@ -21,7 +12,7 @@ internal class BooksController
 
         foreach (var book in MockDatabase.Books)
         {
-            AnsiConsole.MarkupLine($"- [cyan]{book}[/]");
+            AnsiConsole.MarkupLine($"- [cyan]{book.Name}[/]");
         }
 
         AnsiConsole.MarkupLine("Press any key to continue...");
@@ -35,15 +26,17 @@ internal class BooksController
                 for validation. We're storing the answer in the 'title' variable*/
 
         var title = AnsiConsole.Ask<string>("Enter the [green]title[/] of the book to add:");
+        var pages = AnsiConsole.Ask<int>("Enter the [green]number of pages[/] of the book to add:");
 
         //checking if the book already exists in the list
-        if (MockDatabase.Books.Contains(title))
+        if (MockDatabase.Books.Exists(b => b.Name.Equals(title, StringComparison.OrdinalIgnoreCase)))
         {
             AnsiConsole.MarkupLine($"[red]The book '{title}' already exists in the list.[/]");
         }
         else
         {
-            MockDatabase.Books.Add(title);
+            var newBook = new Book(title, pages);
+            MockDatabase.Books.Add(newBook);
             AnsiConsole.MarkupLine($"[green]Book '{title}' added successfully![/]");
         }
         AnsiConsole.MarkupLine("Press any key to continue...");
@@ -63,9 +56,10 @@ internal class BooksController
         /* showing a list of books and letting the user choose with arrows 
         using SelectionPrompt, similarly to what we do with the menu */
         var bookToDelete = AnsiConsole.Prompt(
-            new SelectionPrompt<string>()
+            new SelectionPrompt<Book>()
             .Title("Select a [red]book[/] to delete:")
-            .AddChoices(books));
+            .UseConverter(b => $"{b.Name}") // this is to show only the name of the book in the selection list
+            .AddChoices(MockDatabase.Books)); // we pass the list of books as choices for the selection prompt
 
         /* Using the Remove method to delete a book. This method returns a boolean
         that we can use to present a message in case of success or failure.*/
