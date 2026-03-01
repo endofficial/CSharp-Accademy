@@ -1,9 +1,10 @@
 ﻿using Spectre.Console;
+using TCSA.OOP.LibraryManagementSystem.Controller;
 using TCSA.OOP.LibraryManagementSystem.Models;
 
 namespace TCSA.OOP.LibraryManagementSystem.Controllers;
 
-public class BooksController : IBaseController
+public class BooksController : BaseController, IBaseController
 {
     public void ViewItems()
     {
@@ -81,16 +82,16 @@ public class BooksController : IBaseController
 
         if (MockDatabase.LibraryItems.OfType<Book>().Any(b => b.Name.Equals(title, StringComparison.OrdinalIgnoreCase)))
         {
-            AnsiConsole.MarkupLine($"[red]The book '{title}' already exists in the list.[/]");
+            DisplayMessage($"The book '{title}' already exists in the library.", "red");
         }
         else
         {
             var newBook = new Book(MockDatabase.LibraryItems.Count + 1, title, author, category, location, pages); // we set the id of the book as the count of library items + 1 to ensure uniqueness
             MockDatabase.LibraryItems.Add(newBook);
-            AnsiConsole.MarkupLine($"[green]Book '{title}' added successfully![/]");
+            DisplayMessage($"Book '{title}' added successfully!", "green");
         }
 
-        AnsiConsole.MarkupLine("Press any key to continue...");
+        DisplayMessage("Press any key to continue...");
         Console.ReadKey();
     }
 
@@ -140,16 +141,23 @@ public class BooksController : IBaseController
             .UseConverter(b => $"{b.Name}")
             .AddChoices(books));
 
-        if (MockDatabase.LibraryItems.Remove(bookToDelete))
+        if (ConfirmDeletion(bookToDelete.Name)) // we ask the user to confirm the deletion of the book
         {
-            AnsiConsole.MarkupLine("[red]Book deleted successfully![/]");
+            if (MockDatabase.LibraryItems.Remove(bookToDelete))
+            {
+                DisplayMessage("Book deleted successfully!", "red");
+            }
+            else
+            {
+                DisplayMessage("Failed to delete the book.", "red");
+            }
         }
-        else
+        else // if the user cancels the deletion, we show a message and return to the menu
         {
-            AnsiConsole.MarkupLine("[red]Failed to delete the book.[/]");
+            DisplayMessage("Deletion cancelled.", "yellow");
         }
 
-        AnsiConsole.MarkupLine("Press Any Key to Continue.");
+        DisplayMessage("Press any key to continue...");
         Console.ReadKey();
     }
 }
