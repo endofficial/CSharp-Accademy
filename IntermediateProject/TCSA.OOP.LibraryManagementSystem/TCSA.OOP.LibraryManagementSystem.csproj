@@ -11,6 +11,10 @@
     <PackageReference Include="Spectre.Console" Version="0.54.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Models\Models.csproj" />
+  </ItemGroup>
+
 	<ItemGroup>
 		<Using Include="System.Console" Static="true"></Using>
 	</ItemGroup>
