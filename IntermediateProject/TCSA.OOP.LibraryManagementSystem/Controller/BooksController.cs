@@ -1,10 +1,11 @@
 ﻿using Spectre.Console;
+using TCSA.OOP.LibraryManagementSystem.Models;
 
-namespace TCSA.OOP.LibraryManagementSystem;
+namespace TCSA.OOP.LibraryManagementSystem.Controllers;
 
-internal class BooksController
+public class BooksController : IBaseController
 {
-    internal void ViewBooks()
+    public void ViewItems()
     {
         /*Spectre's MarkupLine method is useful for styling strings.
          We'll use it as a standard do print messages to the console.
@@ -49,7 +50,7 @@ internal class BooksController
         Console.ReadKey();
     }
 
-    internal void AddBook()
+    public void AddItems()
     {
         /*Spectre's Ask<> method allows us to prompt a message to grab 
         the user's input. We can pass the type we expect as an answer
@@ -93,7 +94,7 @@ internal class BooksController
         Console.ReadKey();
     }
 
-    internal void DeleteBook()
+    public void DeleteItems()
     {
         /*//checking if there are any books to delete
         if (MockDatabase.Books.Count == 0)
