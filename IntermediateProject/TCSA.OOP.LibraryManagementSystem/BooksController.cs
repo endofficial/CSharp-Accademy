@@ -19,7 +19,7 @@ internal class BooksController
                 We'll use it as a standard do print messages to the console.*/
         AnsiConsole.MarkupLine("[yellow]List of Books:[/]");
 
-        foreach (var book in books)
+        foreach (var book in MockDatabase.Books)
         {
             AnsiConsole.MarkupLine($"- [cyan]{book}[/]");
         }
@@ -37,13 +37,13 @@ internal class BooksController
         var title = AnsiConsole.Ask<string>("Enter the [green]title[/] of the book to add:");
 
         //checking if the book already exists in the list
-        if (books.Contains(title))
+        if (MockDatabase.Books.Contains(title))
         {
             AnsiConsole.MarkupLine($"[red]The book '{title}' already exists in the list.[/]");
         }
         else
         {
-            books.Add(title);
+            MockDatabase.Books.Add(title);
             AnsiConsole.MarkupLine($"[green]Book '{title}' added successfully![/]");
         }
         AnsiConsole.MarkupLine("Press any key to continue...");
@@ -53,7 +53,7 @@ internal class BooksController
     internal void DeleteBook()
     {
         //checking if there are any books to delete
-        if (books.Count == 0)
+        if (MockDatabase.Books.Count == 0)
         {
             AnsiConsole.MarkupLine("[red]No books available to delete.[/]");
             Console.ReadKey();
@@ -69,7 +69,7 @@ internal class BooksController
 
         /* Using the Remove method to delete a book. This method returns a boolean
         that we can use to present a message in case of success or failure.*/
-        if (books.Remove(bookToDelete))
+        if (MockDatabase.Books.Remove(bookToDelete))
         {
             AnsiConsole.MarkupLine("[red]Book deleted successfully![/]");
         }

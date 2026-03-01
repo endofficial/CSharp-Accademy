@@ -2,13 +2,13 @@
 using static TCSA.OOP.LibraryManagementSystem.Enums;
 
 namespace TCSA.OOP.LibraryManagementSystem;
+
 internal class UserInterface
 {
-    internal static void MainMenu()
-    {
-        // Create a controller instance to call instance methods
-        var booksController = new BooksController();
+    private BooksController booksController = new BooksController();
 
+    internal void MainMenu()
+    {
         while (true)
         {
             Console.Clear();
@@ -35,6 +35,14 @@ internal class UserInterface
             }
         }
     }
+}
+
+internal static class MockDatabase
+{
+    internal static List<string> Books = new()
+    {
+        "The Great Gatsby", "To Kill a Mockingbird", "1984", "Pride and Prejudice", "The Catcher in the Rye", "The Hobbit", "Moby-Dick", "War and Peace", "The Odyssey", "The Lord of the Rings", "Jane Eyre", "Animal Farm", "Brave New World", "The Chronicles of Narnia", "The Diary of a Young Girl", "The Alchemist", "Wuthering Heights", "Fahrenheit 451", "Catch-22", "The Hitchhiker's Guide to the Galaxy"
+    };
 }
 
 //Un enum consente di definire un tipo che può accettare solo uno dei valori predefiniti.
