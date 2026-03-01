@@ -1,6 +1,6 @@
 ﻿namespace TCSA.OOP.LibraryManagementSystem.Models;
 
-internal abstract class LibraryItem
+public abstract class LibraryItem
 {
     public int Id { get; set; }
     public string Name { get; set; }

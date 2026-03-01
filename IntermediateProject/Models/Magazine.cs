@@ -2,7 +2,7 @@
 
 namespace TCSA.OOP.LibraryManagementSystem.Models;
 
-internal class Magazine : LibraryItem
+public class Magazine : LibraryItem
 {
     public string Publisher { get; set; }
     public DateTime PublishDate { get; set; }
@@ -19,7 +19,7 @@ internal class Magazine : LibraryItem
     {
         var panel = new Panel(new Markup($"[bold]Magazine:[/] [cyan]{Name}[/]") +
                               $"\n[bold]Publisher:[/] [green]{Publisher}[/]" +
-                              $"\n[bold]Publish Date:[/] {PublishDate:MMMM dd, yyyy}" +
+                              $"\n[bold]Publish Date:[/] {PublishDate:yyyy-MM-dd}" +
                               $"\n[bold]Issue Number:[/] {IssueNumber}" +
                               $"\n[bold]Location:[/] [blue]{Location}[/]")
         {

@@ -10,7 +10,9 @@ internal class BooksController
                 We'll use it as a standard do print messages to the console.*/
         AnsiConsole.MarkupLine("[yellow]List of Books:[/]");
 
-        foreach (var book in MockDatabase.Books)
+        var books = MockDatabase.LibraryItems.OfType<Book>();
+
+        foreach (var book in books)
         {
             AnsiConsole.MarkupLine($"- [cyan]{book.Name}[/]");
         }

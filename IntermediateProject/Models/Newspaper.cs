@@ -2,7 +2,7 @@
 
 namespace TCSA.OOP.LibraryManagementSystem.Models;
 
-internal class Newspaper : LibraryItem
+public class Newspaper : LibraryItem
 {
     public string Publisher { get; set; }
     public DateTime PublishDate { get; set; }
@@ -17,7 +17,7 @@ internal class Newspaper : LibraryItem
     {
         var panel = new Panel(new Markup($"[bold]Newspaper:[/] [cyan]{Name}[/]") +
                               $"\n[bold]Publisher:[/] [green]{Publisher}[/]" +
-                              $"\n[bold]Publish Date:[/] {PublishDate:MMMM dd, yyyy}" +
+                              $"\n[bold]Publish Date:[/] {PublishDate:yyyy-MM-dd}" +
                               $"\n[bold]Location:[/] [blue]{Location}[/]")
         {
             Border = BoxBorder.Rounded
