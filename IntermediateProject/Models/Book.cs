@@ -5,9 +5,9 @@ namespace TCSA.OOP.LibraryManagementSystem;
 
 public class Book : LibraryItem
 {
-    internal string Author { get; set; }
-    internal string Category { get; set; }
-    internal int Pages { get; set; }
+    public string Author { get; set; }
+    public string Category { get; set; }
+    public int Pages { get; set; }
 
     public Book(int id, string name, string author, string category, string location, int pages) : base(id, name, location)
     {
