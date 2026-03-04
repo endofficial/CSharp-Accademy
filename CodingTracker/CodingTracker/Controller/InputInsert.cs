@@ -24,6 +24,7 @@ internal class InputInsert
 
     internal static bool GetTimeSessionInput()
     {
+        string[] format = { @"h\:mm", @"hh\:mm" };
         string description = AnsiConsole.Ask<string>("Please enter a description for the session. You can leave it empty if you want.");
 
         string startInput = AnsiConsole.Prompt(
@@ -32,7 +33,6 @@ internal class InputInsert
             {
                 if (input == "0") return ValidationResult.Success();
 
-                string[] format = { @"h\:mm", @"hh\:mm" };
                 bool isValid = TimeSpan.TryParseExact(input, format, CultureInfo.InvariantCulture, out var time);
 
                 // Check if the time is valid and within the range of 0 to 24 hours
@@ -62,9 +62,14 @@ internal class InputInsert
             }));
         if (endInput == "0") return false;
 
-        DateTime startTime = DateTime.ParseExact(startInput, "yyyy-MM-dd", CultureInfo.InvariantCulture);
-        DateTime endTime = DateTime.ParseExact(endInput, "yyyy-MM-dd", CultureInfo.InvariantCulture);
-        var session = new CodingSessions(0, startTime, endTime, description);
+        // convert string to DateTime
+        DateTime startTime = DateTime.ParseExact(startInput, format, CultureInfo.InvariantCulture);
+        DateTime endTime = DateTime.ParseExact(endInput, format, CultureInfo.InvariantCulture);
+
+        // calculate duration
+        TimeSpan duration = endTime - startTime;
+
+        var session = new CodingSessions(0, startTime, endTime, duration, description);
 
         return true;
     }

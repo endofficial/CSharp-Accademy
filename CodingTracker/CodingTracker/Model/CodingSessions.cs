@@ -9,11 +9,12 @@ internal class CodingSessions
 
     public TimeSpan Duration => EndTime - StartTime;
 
-    public CodingSessions(int id, DateTime startTime, DateTime endTime, string? description)
+    public CodingSessions(int id, DateTime startTime, DateTime endTime, TimeSpan duration, string? description)
     {
         Id = id;
         StartTime = startTime;
         EndTime = endTime;
+        duration = Duration;
         Description = description;
     }
 }
