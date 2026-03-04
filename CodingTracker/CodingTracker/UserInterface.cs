@@ -1,0 +1,48 @@
+﻿using Spectre.Console;
+using static CodingTracker.Enums;
+
+namespace CodingTracker;
+
+internal class UserInterface
+{
+    internal void MainMenu()
+    {
+        bool closeApp = false;
+        Clear();
+
+        while (!closeApp)
+        {
+            var actionChoice = AnsiConsole.Prompt(
+            new SelectionPrompt<MenuAction>()
+            .Title("What do you want to do next?")
+            .UseConverter(option => option switch // UseConverter is used to convert the enum values to user-friendly strings in the selection prompt
+            {
+                MenuAction.RegisterSession => "Register a coding session",
+                MenuAction.AddSession => "Add a coding session",
+                MenuAction.UpdateSession => "Update a coding session",
+                MenuAction.DeleteSession => "Delete a coding session",
+                MenuAction.ViewSessions => "View coding sessions",
+                MenuAction.ExiSession => "[red]Close App[/]",
+                _ => option.ToString() // Fallback to the default enum name if no specific string is provided
+            })
+            .AddChoices(Enum.GetValues<MenuAction>()));
+
+            switch (actionChoice)
+            {
+                case MenuAction.RegisterSession:
+                    break;
+                case MenuAction.AddSession:
+                    break;
+                case MenuAction.UpdateSession:
+                    break;
+                case MenuAction.DeleteSession:
+                    break;
+                case MenuAction.ViewSessions:
+                    break;
+                case MenuAction.ExiSession:
+                    closeApp = true;
+                    break;
+            }
+        }
+    }
+}
