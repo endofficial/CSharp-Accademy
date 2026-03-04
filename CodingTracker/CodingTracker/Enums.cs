@@ -6,10 +6,8 @@ internal class Enums
     {
         RegisterSession,
         ViewSessions,
-        AddSession,
         UpdateSession,
         DeleteSession,
-        BackToMainMenu,
         ExiSession
     }
 }

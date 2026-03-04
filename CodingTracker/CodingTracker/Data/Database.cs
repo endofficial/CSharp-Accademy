@@ -13,7 +13,7 @@ internal class Database
     public Database()
     {
         var config = new ConfigurationBuilder()
-            .AddJsonFile("appsettings.json")
+            .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
             .Build();
 
         // Retrieve the connection string from the configuration

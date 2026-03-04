@@ -1,10 +1,14 @@
-﻿namespace CodingTracker
+﻿using CodingTracker.Data;
+
+namespace CodingTracker
 {
     internal class Program
     {
-        private static readonly string connectionString = "Data Source=CodingTracker.db";
         static void Main(string[] args)
         {
+            Database database = new();
+            database.Initialize();
+
             UserInterface ui = new();
             ui.MainMenu();
         }
